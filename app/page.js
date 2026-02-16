@@ -50,6 +50,7 @@ export default function HomePage() {
               className="px-6 py-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.06] text-[#6b6b80] font-medium text-sm hover:bg-white/[0.08] hover:text-white/80 transition-all duration-300"
             >
               create a poll
+              (login first)
             </Link>
           </div>
         </div>

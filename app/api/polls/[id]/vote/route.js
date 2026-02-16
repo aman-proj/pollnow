@@ -4,7 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 
 export async function POST(req, { params }) {
-  const { id } =  await params; // Add await here
+  const { id } =  await params; 
   const { optionId } = await req.json();
 
   // Get user session
@@ -68,7 +68,7 @@ export async function POST(req, { params }) {
       return Response.json({ error: "Invalid option" }, { status: 400 });
     }
 
-    // Insert vote
+    
    await client.query(
   `INSERT INTO votes (option_id, user_id, fingerprint, poll_id)
    VALUES ($1, $2, $3, $4)`,

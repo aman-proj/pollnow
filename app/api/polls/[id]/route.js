@@ -4,7 +4,7 @@ export async function GET(req, { params }) {
   const { id } = await params;
   
   try {
-    // Get poll details - cast created_by to match users.id type
+    // Get poll details 
     const pollRes = await pool.query(
       `SELECT p.id, p.question, p.created_by, p.created_at,
               u.name as creator_name, u.email as creator_email

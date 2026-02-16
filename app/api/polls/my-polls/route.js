@@ -2,7 +2,7 @@ import { pool } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-// Must be named export GET, not default export
+
 export async function GET(req) {
   const session = await getServerSession(authOptions);
 
