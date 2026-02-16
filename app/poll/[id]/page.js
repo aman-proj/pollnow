@@ -237,7 +237,7 @@ if (loading || checkingVote || status === "loading") {
             </button>
           </div>
           
-          <h1 className="text-2xl font-bold text-gray-800">{poll.question}</h1>
+          <h1 className="text-2xl font-bold text-gray-100">{poll.question}</h1>
           {poll.creatorName && (
             <p className="text-sm text-gray-500 mt-2">
               Created by {poll.creatorName}

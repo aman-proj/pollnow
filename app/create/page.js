@@ -88,8 +88,8 @@ const handleSubmit = async (e) => {
     <div className="flex items-start justify-center min-h-[calc(100vh-64px)] px-6 py-12">
       <div className="w-full max-w-lg">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-800 mb-1">Create a Poll</h1>
-          <p className="text-sm text-gray-400">Ask a question and let people vote in real-time.</p>
+          <h1 className="text-2xl font-bold text-gray-100 mb-1">Create a Poll</h1>
+          <p className="text-sm text-gray-200">Ask a question and let people vote in real-time.</p>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -102,7 +102,7 @@ const handleSubmit = async (e) => {
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
                 placeholder="What do you want to ask?"
-                className="w-full px-4 py-3.5 rounded-xl bg-white/60 border border-gray-200/60 text-sm text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-300/50 focus:border-purple-300 transition-all duration-200"
+                className="w-full px-4 py-3.5 rounded-xl bg-white/600 border border-gray-200/60 text-sm text-gray-700 placeholder:text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-300/50 focus:border-purple-300 transition-all duration-200"
                 disabled={!!createdLink}
               />
             </div>
