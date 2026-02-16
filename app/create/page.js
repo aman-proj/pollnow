@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import OptionInput from "@/components/OptionInput";
 import ShareLinkBox from "@/components/ShareLinkBox";
-import { generateId } from "@/lib/mockData";
+
 
 export default function CreatePollPage() {
   const router = useRouter();
@@ -33,31 +33,56 @@ export default function CreatePollPage() {
     setOptions(options.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!question.trim()) {
-      toast.error("Please enter a poll question");
-      return;
-    }
+  if (!question.trim()) {
+    toast.error("Please enter a poll question");
+    return;
+  }
 
-    const filledOptions = options.filter((o) => o.trim());
-    if (filledOptions.length < 2) {
-      toast.error("Please provide at least 2 options");
-      return;
-    }
+  const filledOptions = options.filter((o) => o.trim());
+  if (filledOptions.length < 2) {
+    toast.error("Please provide at least 2 options");
+    return;
+  }
 
+  try {
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    const res = await fetch("/api/polls/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        question: question.trim(),
+        options: filledOptions,
+      }),
+    });
 
-    const pollId = generateId();
-    const link = `${window.location.origin}/poll/${pollId}`;
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to create poll");
+    }
+
+    // You get pollId from backend
+    const link = `${window.location.origin}/poll/${data.pollId}`;
+
     setCreatedLink(link);
-    setIsSubmitting(false);
+
     toast.success("Poll created successfully!");
-  };
+
+    // OPTIONAL (Better UX)
+    // router.push(`/poll/${data.pollId}`);
+    
+  } catch (err) {
+    toast.error(err.message);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="flex items-start justify-center min-h-[calc(100vh-64px)] px-6 py-12">

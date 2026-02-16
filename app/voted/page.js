@@ -1,13 +1,76 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { getVotedPolls } from "@/lib/mockData";
+import { supabase } from "@/lib/supabase";
 import ProgressBar from "@/components/ProgressBar";
 
 export default function VotedPollsPage() {
-  const polls = getVotedPolls();
+  const { data: session, status } = useSession();
+  const [polls, setPolls] = useState([]);
   const [expandedId, setExpandedId] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  
+  useEffect(() => {
+    if (status !== "authenticated") return;
+
+    const fetchVoted = async () => {
+      const res = await fetch("/api/polls/voted");
+      const data = await res.json();
+      setPolls(data);
+      setLoading(false);
+    };
+
+    fetchVoted();
+  }, [status]);
+
+  // 🔥 Realtime subscription
+  useEffect(() => {
+    if (!polls.length) return;
+
+    const pollIds = polls.map(p => p.id);
+
+    const channel = supabase
+      .channel("voted-polls-realtime")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "votes",
+        },
+        (payload) => {
+          const { poll_id, option_id } = payload.new;
+
+          if (!pollIds.includes(poll_id)) return;
+
+          setPolls(prev =>
+            prev.map(poll => {
+              if (poll.id !== poll_id) return poll;
+
+              return {
+                ...poll,
+                totalVotes: poll.totalVotes + 1,
+                options: poll.options.map(option =>
+                  option.id === option_id
+                    ? { ...option, votes: option.votes + 1 }
+                    : option
+                ),
+              };
+            })
+          );
+        }
+      )
+      .subscribe();
+
+    return () => supabase.removeChannel(channel);
+  }, [polls.length]);
+
+  if (loading) {
+    return <div className="text-white p-10">Loading...</div>;
+  }
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">

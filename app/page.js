@@ -33,7 +33,7 @@ export default function HomePage() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-10">
-            <Link
+            {/* <Link
               href="/login"
               className="group relative px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[#6c5ce7] to-[#5a4bd1] text-white font-semibold text-sm shadow-lg shadow-[#6c5ce7]/20 hover:shadow-xl hover:shadow-[#6c5ce7]/30 hover:scale-105 transition-all duration-300"
             >
@@ -44,19 +44,19 @@ export default function HomePage() {
                   <polyline points="12 5 19 12 12 19" />
                 </svg>
               </span>
-            </Link>
+            </Link> */}
             <Link
-              href="/leaderboard"
+              href="/my-polls"
               className="px-6 py-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.06] text-[#6b6b80] font-medium text-sm hover:bg-white/[0.08] hover:text-white/80 transition-all duration-300"
             >
-              View Leaderboard
+              create a poll
             </Link>
           </div>
         </div>
       </div>
 
       {/* Features */}
-      <div className="max-w-4xl mx-auto px-6 pb-24">
+      {/* <div className="max-w-4xl mx-auto px-6 pb-24">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             {
@@ -102,7 +102,7 @@ export default function HomePage() {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
